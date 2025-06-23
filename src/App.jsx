@@ -1,10 +1,23 @@
 // import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Layout from "./Layout.jsx";
+import HomePage from "./pages/HomePage/HomePage.jsx";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
+import BoardPage from "./pages/BoardPage/BoardPage.jsx";
+import LoadBoardPage from "./pages/LoadBoardPage/LoadBoardPage.jsx";
 
 function App() {
   return (
-    <>
-      <p>Hello World!</p>
-    </>
+    <div>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/boards" element={<LoadBoardPage />} />
+          <Route path="/boards/:boardId" element={<BoardPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
