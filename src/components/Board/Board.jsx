@@ -1,14 +1,16 @@
 // import { useEffect } from "react";
+import { selectCurrentBoard } from "../../redux/boards/selectors.js";
 import BoardData from "../BoardData/BoardData.jsx";
 import Done from "../Done/Done.jsx";
 import InProgress from "../InProgress/InProgress.jsx";
 import ToDo from "../ToDo/ToDo.jsx";
-import { useDispatch } from "react-redux";
-import { fetchBoardById } from "../../redux/boards/operations.js";
+import { useSelector } from "react-redux";
+// import { fetchBoardById } from "../../redux/boards/operations.js";
 // import { selectTasks } from "../../redux/tasks/selectors.js";
 
 const Board = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const board = useSelector(selectCurrentBoard);
 
   //   const data = useSelector(selectTasks);
 
@@ -18,7 +20,7 @@ const Board = () => {
 
   return (
     <div>
-      <BoardData data={dispatch(fetchBoardById())} />
+      <BoardData data={board.data} />
       <ul>
         <li>
           <ToDo />

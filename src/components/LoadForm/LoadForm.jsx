@@ -7,10 +7,12 @@ import {
   SelectLoading,
   SelectError,
 } from "../../redux/boards/selectors.js";
+import { useNavigate } from "react-router-dom";
 
 const LoadForm = () => {
   const initialValues = { boardId: "" };
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const board = useSelector(selectCurrentBoard);
   const loading = useSelector(SelectLoading);
@@ -33,6 +35,11 @@ const LoadForm = () => {
     actions.resetForm({ values: initialValues });
   };
 
+  const handleLoadClick = () => {
+    //   const boardId = "12345abc";
+    navigate(`/boards/${board.data.boardId}`);
+  };
+
   console.log("BOARD", board);
 
   return (
@@ -49,18 +56,20 @@ const LoadForm = () => {
             placeholder="Enter a board ID here..."
           />
           <ErrorMessage name="boardId" component="span" />
-          <button type="submit">Load</button>
+          <button type="submit" onClick={handleLoadClick}>
+            Load
+          </button>
         </Form>
       </Formik>
 
       {loading && <p>Loading board...</p>}
       {error && <p>Error: {error}</p>}
-      {!loading && board && (
+      {/* {!loading && board && (
         <div>
           <p>{board.data.boardId}</p>
           <p>{board.data.name}</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
