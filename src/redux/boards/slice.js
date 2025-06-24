@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addBoard, fetchBoardById } from "./operations";
+import { addBoard, deleteBoard, fetchBoardById } from "./operations";
 
 const initialState = {
   items: [],
@@ -32,6 +32,17 @@ const slice = createSlice({
         state.loading = true;
       })
       .addCase(addBoard.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteBoard.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(deleteBoard.fulfilled, (state, action) => {
+        state.items = state.items.filter((item) => item._id !== action.payload);
+        state.isLoading = false;
+      })
+      .addCase(deleteBoard.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

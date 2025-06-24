@@ -1,0 +1,10 @@
+.boardBox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+
+.boardData {
+  display: flex;
+  flex-direction: column;
+}

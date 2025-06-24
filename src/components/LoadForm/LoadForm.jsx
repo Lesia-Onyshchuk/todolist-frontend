@@ -36,9 +36,12 @@ const LoadForm = () => {
   };
 
   const handleLoadClick = () => {
-    //   const boardId = "12345abc";
     navigate(`/boards/${board.data.boardId}`);
   };
+
+  // if (!board) {
+  //   return <p>loading...</p>;
+  // }
 
   console.log("BOARD", board);
 
@@ -64,12 +67,6 @@ const LoadForm = () => {
 
       {loading && <p>Loading board...</p>}
       {error && <p>Error: {error}</p>}
-      {/* {!loading && board && (
-        <div>
-          <p>{board.data.boardId}</p>
-          <p>{board.data.name}</p>
-        </div>
-      )} */}
     </div>
   );
 };

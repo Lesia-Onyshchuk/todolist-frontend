@@ -1,0 +1,27 @@
+.boardBox {
+  padding-top: 36px;
+}
+
+.todoList {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.todo {
+  width: 420px;
+  background-color: #ff0303;
+  height: 100vh;
+}
+
+.inprogress {
+  width: 420px;
+  background-color: #fffe2e;
+  height: 100vh;
+}
+
+.done {
+  width: 420px;
+  background-color: #19e900;
+  height: 100vh;
+}

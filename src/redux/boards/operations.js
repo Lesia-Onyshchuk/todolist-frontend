@@ -24,3 +24,15 @@ export const addBoard = createAsyncThunk(
     }
   }
 );
+
+export const deleteBoard = createAsyncThunk(
+  "boards/deleteBoard",
+  async (boardId, thunkAPI) => {
+    try {
+      await api.delete(`/boards/${boardId}`);
+      return boardId;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
