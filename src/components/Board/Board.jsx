@@ -10,6 +10,8 @@ import { fetchTasks, updateTask } from "../../redux/tasks/operations.js";
 import { selectTasks } from "../../redux/tasks/selectors.js";
 import { useParams } from "react-router-dom";
 import { DndContext } from "@dnd-kit/core";
+import Loader from "../Loader/Loader.jsx";
+import { fetchBoardById } from "../../redux/boards/operations.js";
 
 const Board = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ const Board = () => {
   const board = useSelector(selectCurrentBoard);
 
   useEffect(() => {
+    dispatch(fetchBoardById(boardId));
     dispatch(fetchTasks({ boardId }));
   }, [dispatch, boardId]);
 
@@ -42,6 +45,10 @@ const Board = () => {
     console.log("Drag over:", event.over?.id);
   };
   console.log("ALL TASKS:", tasks);
+  console.log("Current board:", board);
+  if (!board) {
+    return <Loader />;
+  }
   return (
     <DndContext
       onDragStart={handleDragStart}
@@ -49,7 +56,7 @@ const Board = () => {
       onDragEnd={handleDragEnd}
     >
       <div className={css.boardBox}>
-        <BoardData data={board.data} />
+        <BoardData data={board} />
         <ul className={css.todoList}>
           <li className={css.todo}>
             <ToDo />

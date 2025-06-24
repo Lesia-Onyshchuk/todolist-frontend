@@ -1,3 +1,3 @@
 export const selectCurrentBoard = (state) => state.boards.board;
-export const SelectLoading = (state) => state.boards.loading;
-export const SelectError = (state) => state.boards.error;
+export const selectBoardLoading = (state) => state.boards.loading;
+export const selectError = (state) => state.boards.error;

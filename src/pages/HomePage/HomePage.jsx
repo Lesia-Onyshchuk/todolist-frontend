@@ -1,5 +1,4 @@
 import AddBoard from "../../components/AddBoard/AddBoard.jsx";
-// import LoadForm from "../../components/LoadForm/LoadForm.jsx";
 import css from "./HomePage.module.css";
 
 const HomePage = () => {

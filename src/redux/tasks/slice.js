@@ -24,8 +24,8 @@ const slice = createSlice({
         state.error = action.payload;
       })
       .addCase(addTask.fulfilled, (state, action) => {
-        state.items.push(action.payload);
         state.loading = false;
+        state.items.push(action.payload);
       })
       .addCase(addTask.pending, (state, action) => {
         state.loading = true;
@@ -35,6 +35,7 @@ const slice = createSlice({
         state.error = action.payload;
       })
       .addCase(updateTask.fulfilled, (state, action) => {
+        state.loading = false;
         state.items = state.items.map((item) =>
           item._id === action.payload._id ? action.payload : item
         );
@@ -50,8 +51,8 @@ const slice = createSlice({
         state.loading = true;
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
+        state.loading = false;
         state.items = state.items.filter((item) => item._id !== action.payload);
-        state.isLoading = false;
       })
       .addCase(deleteTask.rejected, (state, action) => {
         state.loading = false;

@@ -18,15 +18,17 @@ const slice = createSlice({
       })
       .addCase(fetchBoardById.fulfilled, (state, action) => {
         state.loading = false;
-        state.board = action.payload;
+        state.board = action.payload.data;
       })
       .addCase(fetchBoardById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
       .addCase(addBoard.fulfilled, (state, action) => {
-        state.items.push(action.payload);
         state.loading = false;
+        const newBoard = action.payload.data;
+        state.items.push(newBoard);
+        state.current = newBoard;
       })
       .addCase(addBoard.pending, (state, action) => {
         state.loading = true;
@@ -39,8 +41,8 @@ const slice = createSlice({
         state.loading = true;
       })
       .addCase(deleteBoard.fulfilled, (state, action) => {
+        state.loading = false;
         state.items = state.items.filter((item) => item._id !== action.payload);
-        state.isLoading = false;
       })
       .addCase(deleteBoard.rejected, (state, action) => {
         state.loading = false;

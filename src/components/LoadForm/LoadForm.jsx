@@ -1,22 +1,14 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { fetchBoardById } from "../../redux/boards/operations";
-import {
-  selectCurrentBoard,
-  SelectLoading,
-  SelectError,
-} from "../../redux/boards/selectors.js";
 import { useNavigate } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
 
 const LoadForm = () => {
   const initialValues = { boardId: "" };
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const board = useSelector(selectCurrentBoard);
-  const loading = useSelector(SelectLoading);
-  const error = useSelector(SelectError);
 
   const BoardIdSchema = Yup.object().shape({
     boardId: Yup.number()
@@ -30,20 +22,37 @@ const LoadForm = () => {
       .required("Board ID is required"),
   });
 
-  const handleSubmit = (values, actions) => {
-    dispatch(fetchBoardById(values.boardId));
-    actions.resetForm({ values: initialValues });
+  const handleSubmit = async (values, actions) => {
+    try {
+      const result = await dispatch(fetchBoardById(values.boardId)).unwrap();
+      toast.success("Board successfully found!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      navigate(`/boards/${values.boardId}`);
+    } catch (error) {
+      toast.error("Board not found!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+    } finally {
+      actions.resetForm({ values: initialValues });
+    }
   };
-
-  const handleLoadClick = () => {
-    navigate(`/boards/${board.data.boardId}`);
-  };
-
-  // if (!board) {
-  //   return <p>loading...</p>;
-  // }
-
-  console.log("BOARD", board);
 
   return (
     <div>
@@ -59,14 +68,9 @@ const LoadForm = () => {
             placeholder="Enter a board ID here..."
           />
           <ErrorMessage name="boardId" component="span" />
-          <button type="submit" onClick={handleLoadClick}>
-            Load
-          </button>
+          <button type="submit">Load</button>
         </Form>
       </Formik>
-
-      {loading && <p>Loading board...</p>}
-      {error && <p>Error: {error}</p>}
     </div>
   );
 };

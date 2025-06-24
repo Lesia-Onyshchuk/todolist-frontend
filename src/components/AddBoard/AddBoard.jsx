@@ -4,13 +4,10 @@ import * as Yup from "yup";
 import { addBoard } from "../../redux/boards/operations";
 import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-// import { selectCurrentBoard } from "../../redux/boards/selectors";
 
 const AddBoard = () => {
   const initialValues = { name: "" };
   const dispatch = useDispatch();
-
-  // const board = useSelector(selectCurrentBoard);
 
   console.log("Initial values:", initialValues);
 
@@ -23,24 +20,44 @@ const AddBoard = () => {
       .required("Required"),
   });
 
-  const handleSubmit = (values, actions) => {
-    dispatch(addBoard({ name: values.name }));
-    toast.success(`Board ID ${values.name} successfully created!`, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-    });
-    actions.resetForm({ values: initialValues });
-  };
+  const handleSubmit = async (values, actions) => {
+    try {
+      const resultAction = await dispatch(addBoard({ name: values.name }));
+      const newBoard = resultAction.payload;
+      console.log("newBoard:", newBoard);
 
-  const handleLoadClick = () => {
-    navigate("/boards");
+      const boardId = newBoard?.data?.boardId;
+
+      if (boardId) {
+        toast.success(`Board ID ${boardId} successfully created!`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+
+        navigate(`/boards/${boardId}`);
+      }
+
+      actions.resetForm({ values: initialValues });
+    } catch (error) {
+      toast.error("Failed to create board.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+    }
   };
 
   return (
@@ -53,9 +70,7 @@ const AddBoard = () => {
         <Form>
           <Field type="text" name="name" placeholder="Enter a board name" />
           <ErrorMessage name="name" component="span" />
-          <button type="submit" onClick={handleLoadClick}>
-            Create board
-          </button>
+          <button type="submit">Create board</button>
         </Form>
       </Formik>
     </div>

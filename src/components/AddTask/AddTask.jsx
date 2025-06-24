@@ -25,7 +25,7 @@ const AddTask = () => {
     await dispatch(
       addTask({ boardId, title: values.title, description: values.description })
     ).unwrap();
-    toast.success(`Task ID ${values.title} successfully created!`, {
+    toast.success("Task successfully created!", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
