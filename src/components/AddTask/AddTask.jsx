@@ -4,6 +4,8 @@ import { Bounce, toast } from "react-toastify";
 import * as Yup from "yup";
 import { addTask, fetchTasks } from "../../redux/tasks/operations";
 import { useParams } from "react-router-dom";
+import { MdDownloadDone } from "react-icons/md";
+import css from "./AddTask.module.css";
 
 const AddTask = () => {
   const initialValues = { title: "", description: "" };
@@ -40,18 +42,34 @@ const AddTask = () => {
     actions.resetForm({ values: initialValues });
   };
   return (
-    <div>
+    <div className={css.box}>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={TasksSchema}
       >
-        <Form>
-          <Field type="text" name="title" placeholder="Title" />
-          <ErrorMessage name="title" component="span" />
-          <Field as="textarea" name="description" placeholder="Description" />
-          <ErrorMessage name="description" component="span" />
-          <button type="submit">Add task</button>
+        <Form className={css.form}>
+          <div>
+            <Field
+              type="text"
+              name="title"
+              placeholder="Title"
+              className={css.title}
+            />
+            <ErrorMessage name="title" component="span" />
+          </div>
+          <div>
+            <Field
+              as="textarea"
+              name="description"
+              placeholder="Description"
+              className={css.text}
+            />
+            <ErrorMessage name="description" component="span" />
+          </div>
+          <button type="submit" className={css.addBtn}>
+            <MdDownloadDone />
+          </button>
         </Form>
       </Formik>
     </div>

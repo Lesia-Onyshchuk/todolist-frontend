@@ -11,7 +11,7 @@ const BoardData = ({ data }) => {
 
   const handleDelete = () => {
     dispatch(deleteBoard(data.boardId));
-    toast.success("Task successfully deleted!", {
+    toast.success("Board successfully deleted!", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
