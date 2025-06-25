@@ -10,8 +10,6 @@ const AddBoard = () => {
   const initialValues = { name: "" };
   const dispatch = useDispatch();
 
-  console.log("Initial values:", initialValues);
-
   const navigate = useNavigate();
 
   const BoardSchema = Yup.object().shape({
@@ -25,7 +23,6 @@ const AddBoard = () => {
     try {
       const resultAction = await dispatch(addBoard({ name: values.name }));
       const newBoard = resultAction.payload;
-      console.log("newBoard:", newBoard);
 
       const boardId = newBoard?.data?.boardId;
 

@@ -2,6 +2,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { useSelector } from "react-redux";
 import { selectTasks } from "../../redux/tasks/selectors";
 import TaskItem from "../TaskItem/TaskItem.jsx";
+import css from "./Done.module.css";
 
 const Done = () => {
   const { setNodeRef } = useDroppable({ id: "done" });
@@ -12,14 +13,12 @@ const Done = () => {
     <div
       ref={setNodeRef}
       style={{
-        border: "2px dashed lightgray",
-        minHeight: "200px",
-        minWidth: "250px",
-        padding: "10px",
-        marginBottom: "10px",
+        minHeight: "460px",
+        minWidth: "380px",
       }}
+      className={css.box}
     >
-      <h2>Done</h2>
+      <h2 className={css.title}>Done</h2>
       <ul>
         {doneTasks.map((task) => (
           <TaskItem key={task._id} task={task} />

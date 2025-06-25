@@ -30,31 +30,17 @@ const Board = () => {
 
     const task = tasks.find((task) => task._id === active.id);
     if (task && task.status !== over.id) {
-      console.log("Update task status:", task._id, "to", over.id);
       dispatch(
         updateTask({ boardId, id: task._id, updates: { status: over.id } })
       );
     }
   };
 
-  const handleDragStart = (event) => {
-    console.log("Drag started:", event.active.id);
-  };
-
-  const handleDragOver = (event) => {
-    console.log("Drag over:", event.over?.id);
-  };
-  console.log("ALL TASKS:", tasks);
-  console.log("Current board:", board);
   if (!board) {
     return <Loader />;
   }
   return (
-    <DndContext
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-      onDragEnd={handleDragEnd}
-    >
+    <DndContext onDragEnd={handleDragEnd}>
       <div className={css.boardBox}>
         <BoardData data={board} />
         <ul className={css.todoList}>

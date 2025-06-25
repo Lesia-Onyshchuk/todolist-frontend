@@ -49,26 +49,30 @@ const AddTask = () => {
         validationSchema={TasksSchema}
       >
         <Form className={css.form}>
-          <div>
+          <div className={css.inputBox}>
             <Field
               type="text"
               name="title"
               placeholder="Title"
               className={css.title}
             />
-            <ErrorMessage name="title" component="span" />
+            <ErrorMessage name="title" component="span" className={css.error} />
           </div>
-          <div>
+          <div className={css.inputBox}>
             <Field
               as="textarea"
               name="description"
               placeholder="Description"
               className={css.text}
             />
-            <ErrorMessage name="description" component="span" />
+            <ErrorMessage
+              name="description"
+              component="span"
+              className={css.error}
+            />
           </div>
           <button type="submit" className={css.addBtn}>
-            <MdDownloadDone />
+            <MdDownloadDone className={css.icon} />
           </button>
         </Form>
       </Formik>

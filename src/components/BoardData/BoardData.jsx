@@ -25,11 +25,10 @@ const BoardData = ({ data }) => {
     navigate("/");
   };
 
-  console.log("BoardData", data);
   return (
     <div className={css.boardBox}>
-      <h2 className={css.name}>{data.name}</h2>
-      <h1 className={css.id}>{data.boardId}</h1>
+      <h2 className={css.name}>Board title: {data.name}</h2>
+      <h1 className={css.id}>Board ID: {data.boardId}</h1>
       <button type="button" onClick={handleDelete} className={css.delBtn}>
         <GoTrash style={{ width: "36px", height: "36px", fill: "#f00" }} />
       </button>

@@ -7,6 +7,8 @@ import { Bounce, toast } from "react-toastify";
 import { MdOutlineCancel, MdOutlineEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
 import { IoSaveOutline } from "react-icons/io5";
+import css from "./TaskItem.module.css";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 
 const TaskItem = ({ task }) => {
   const dispatch = useDispatch();
@@ -19,25 +21,18 @@ const TaskItem = ({ task }) => {
     transform: transform
       ? `translate(${transform.x}px, ${transform.y}px)`
       : undefined,
-    margin: "8px 0",
-    padding: "8px",
-    backgroundColor: "#f0f0f0",
-    borderRadius: "4px",
-    cursor: "grab",
   };
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(task.title);
-  const [editedDescription, setEditedDescription] = useState(task.description);
 
-  const handleSave = () => {
+  const handleSave = (values) => {
     dispatch(
       updateTask({
         boardId,
         id: task._id,
         updates: {
-          title: editedTitle,
-          description: editedDescription,
+          title: values.title,
+          description: values.description,
         },
       })
     );
@@ -55,62 +50,79 @@ const TaskItem = ({ task }) => {
     setIsEditing(false);
   };
 
-  const handleDelete = () => {
-    dispatch(deleteTask({ boardId, id: task._id }));
-    toast.success("Task successfully deleted!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-    });
-  };
-
   return (
-    <li ref={setNodeRef} style={style}>
+    <li ref={setNodeRef} className={css.box} style={style}>
       <div {...(!isEditing ? { ...listeners, ...attributes } : {})}>
         {isEditing ? (
-          <>
-            <input
-              type="text"
-              value={editedTitle}
-              onChange={(e) => setEditedTitle(e.target.value)}
-            />
-            <textarea
-              value={editedDescription}
-              onChange={(e) => setEditedDescription(e.target.value)}
-            />
-          </>
+          <Formik
+            initialValues={{ title: task.title, description: task.description }}
+            enableReinitialize={true}
+            onSubmit={handleSave}
+          >
+            <Form>
+              <div className={css.inputBox}>
+                <Field
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  className={css.title}
+                />
+                <ErrorMessage
+                  name="title"
+                  component="span"
+                  className={css.error}
+                />
+              </div>
+              <div className={css.inputBox}>
+                <Field
+                  as="textarea"
+                  name="description"
+                  placeholder="Description"
+                  className={css.text}
+                />
+                <ErrorMessage
+                  name="description"
+                  component="span"
+                  className={css.error}
+                />
+              </div>
+              <div className={css.btnBox}>
+                <button type="submit" className={css.saveEditBtn}>
+                  <IoSaveOutline className={css.saveEditIcon} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className={css.cancelDelBtn}
+                >
+                  <MdOutlineCancel />
+                </button>
+              </div>
+            </Form>
+          </Formik>
         ) : (
-          <>
-            <h3>{task.title}</h3>
-            <p>{task.description}</p>
-          </>
+          <div className={css.taskBox}>
+            <h3 className={css.head}>{task.title}</h3>
+            <p className={css.descr}>{task.description}</p>
+          </div>
         )}
       </div>
 
-      {isEditing ? (
-        <>
-          <button onClick={handleSave}>
-            <IoSaveOutline />
+      {!isEditing && (
+        <div className={css.btnBox}>
+          <button
+            onClick={() => setIsEditing(true)}
+            className={css.saveEditBtn}
+          >
+            <MdOutlineEdit className={css.saveEditIcon} />
           </button>
-          <button onClick={() => setIsEditing(false)}>
-            <MdOutlineCancel />
+          <button
+            onClick={() => dispatch(deleteTask({ boardId, id: task._id }))}
+            className={css.cancelDelBtn}
+          >
+            <GoTrash className={css.cancelDelIcon} />
           </button>
-        </>
-      ) : (
-        <>
-          <button onClick={() => setIsEditing(true)}>
-            <MdOutlineEdit />
-          </button>
-          <button onClick={handleDelete}>
-            <GoTrash />
-          </button>
-        </>
+        </div>
       )}
     </li>
   );

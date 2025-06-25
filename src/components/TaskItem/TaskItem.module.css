@@ -1,18 +1,18 @@
 .box {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 36px;
+  margin-bottom: 16px;
   padding: 16px;
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 16px;
   position: relative;
+  cursor: grab;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.inputBox {
+  margin-bottom: 8px;
 }
 
 .title {
@@ -22,6 +22,21 @@
   padding: 4px 8px;
   border-radius: 8px;
   font-size: 14px;
+}
+
+.head {
+  width: 280px;
+  font-size: 16px;
+  font-weight: 500;
+  overflow-wrap: break-word;
+  text-shadow: 1px 1px 3px #ffffff;
+}
+
+.descr {
+  font-size: 12px;
+  width: 320px;
+  overflow-wrap: break-word;
+  margin-bottom: 8px;
 }
 
 .text {
@@ -35,31 +50,15 @@
   height: 88px;
 }
 
-.addBtn {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  top: 16px;
-  right: 20px;
-  background-color: transparent;
-  border: none;
-  border-radius: 50%;
+.btnBox {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 300ms ease-in-out;
+  gap: 24px;
 }
 
-.icon {
-  transition: fill 300ms ease-in-out;
-}
-
-.addBtn:hover {
-  background-color: #367633;
-}
-
-.addBtn:hover .icon {
-  fill: #fff;
+.taskBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .error {
@@ -71,4 +70,33 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.saveEditBtn,
+.cancelDelBtn {
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 300ms ease-in-out;
+}
+
+.saveEditIcon {
+  transition: fill 300ms ease-in-out;
+}
+
+.saveEditBtn:hover {
+  background-color: #367633;
+}
+
+.cancelDelBtn:hover {
+  background-color: #e50000;
+}
+
+.saveEditBtn:hover .saveEditIcon .cancelDelBtn:hover .cancelDelIcon {
+  fill: #fff;
 }

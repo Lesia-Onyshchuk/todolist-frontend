@@ -13,6 +13,8 @@
   background: linear-gradient(rgba(229, 0, 0, 0.5), rgba(255, 255, 255, 0.5));
   border-radius: 16px;
   height: 460px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .inprogress {
@@ -23,6 +25,8 @@
   );
   border-radius: 16px;
   height: 460px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .done {
@@ -30,4 +34,6 @@
   background: linear-gradient(rgba(54, 118, 51, 0.5), rgba(255, 255, 255, 0.5));
   border-radius: 16px;
   height: 460px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

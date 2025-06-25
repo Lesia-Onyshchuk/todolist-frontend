@@ -1,6 +1,5 @@
 .container {
   background: linear-gradient(rgba(54, 118, 51, 1), rgba(52, 102, 50, 1));
-  /* background-color: #367633; */
   border-bottom: 4px solid #fff;
   display: flex;
   justify-content: space-between;
@@ -42,7 +41,6 @@
 .logo {
   color: #f7dd35;
   width: 102px;
-  /* padding: 12px 0; */
   font-size: 20px;
   text-decoration: none;
   text-shadow: 1px 1px 3px #ffffff;

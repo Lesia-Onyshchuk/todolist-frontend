@@ -12,7 +12,14 @@ const ToDo = () => {
   const todoTasks = tasks.filter((task) => task.status === "todo");
 
   return (
-    <div ref={setNodeRef} className={css.box}>
+    <div
+      ref={setNodeRef}
+      className={css.box}
+      style={{
+        minHeight: "460px",
+        minWidth: "380px",
+      }}
+    >
       <h2 className={css.title}>To Do</h2>
       <ul>
         {todoTasks.map((task) => (
