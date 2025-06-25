@@ -3,6 +3,7 @@ import css from "./BoardData.module.css";
 import { useNavigate } from "react-router-dom";
 import { deleteBoard } from "../../redux/boards/operations";
 import { Bounce, toast } from "react-toastify";
+import { GoTrash } from "react-icons/go";
 
 const BoardData = ({ data }) => {
   const dispatch = useDispatch();
@@ -27,12 +28,10 @@ const BoardData = ({ data }) => {
   console.log("BoardData", data);
   return (
     <div className={css.boardBox}>
-      <div className={css.boardData}>
-        <h1>{data.boardId}</h1>
-        <p>{data.name}</p>
-      </div>
-      <button type="button" onClick={handleDelete}>
-        delete
+      <h2 className={css.name}>{data.name}</h2>
+      <h1 className={css.id}>{data.boardId}</h1>
+      <button type="button" onClick={handleDelete} className={css.delBtn}>
+        <GoTrash style={{ width: "36px", height: "36px", fill: "#f00" }} />
       </button>
     </div>
   );

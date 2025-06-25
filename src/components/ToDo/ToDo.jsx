@@ -3,6 +3,7 @@ import AddTask from "../AddTask/AddTask.jsx";
 import TaskItem from "../TaskItem/TaskItem.jsx";
 import { useSelector } from "react-redux";
 import { selectTasks } from "../../redux/tasks/selectors.js";
+import css from "./ToDo.module.css";
 
 const ToDo = () => {
   const { setNodeRef } = useDroppable({ id: "todo" });
@@ -11,8 +12,8 @@ const ToDo = () => {
   const todoTasks = tasks.filter((task) => task.status === "todo");
 
   return (
-    <div ref={setNodeRef}>
-      <h2>ToDo</h2>
+    <div ref={setNodeRef} className={css.box}>
+      <h2 className={css.title}>To Do</h2>
       <ul>
         {todoTasks.map((task) => (
           <TaskItem key={task._id} task={task} />

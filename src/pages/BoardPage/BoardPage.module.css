@@ -1,0 +1,12 @@
+.boardBox {
+  padding-top: 36px;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("../../assets/bckhome.jpg");
+  background-color: f7dd35;
+  background-size: cover;
+  background-position: center;
+  height: 700px;
+}

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { fetchBoardById } from "../../redux/boards/operations";
 import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
+import css from "./LoadForm.module.css";
 
 const LoadForm = () => {
   const initialValues = { boardId: "" };
@@ -61,14 +62,23 @@ const LoadForm = () => {
         onSubmit={handleSubmit}
         validationSchema={BoardIdSchema}
       >
-        <Form>
-          <Field
-            type="number"
-            name="boardId"
-            placeholder="Enter a board ID here..."
-          />
-          <ErrorMessage name="boardId" component="span" />
-          <button type="submit">Load</button>
+        <Form className={css.loadBoardBox}>
+          <div className={css.inputBox}>
+            <Field
+              type="number"
+              name="boardId"
+              placeholder="Enter a board ID here..."
+              className={css.input}
+            />
+            <ErrorMessage
+              name="boardId"
+              component="span"
+              className={css.error}
+            />
+          </div>
+          <button type="submit" className={css.loadBtn}>
+            Load
+          </button>
         </Form>
       </Formik>
     </div>

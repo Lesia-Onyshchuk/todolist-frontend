@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
 import css from "./Header.module.css";
+import { TbCircleDottedLetterT } from "react-icons/tb";
 
 const activeClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.isActive);
@@ -11,7 +12,7 @@ const Header = () => {
     <div className={css.container}>
       <div className={css.header}>
         <NavLink to="/" className={css.logo}>
-          Todolist
+          <TbCircleDottedLetterT style={{ width: "38px", height: "38px" }} />
         </NavLink>
         <nav className={css.nav}>
           <NavLink to="/" className={activeClass}>

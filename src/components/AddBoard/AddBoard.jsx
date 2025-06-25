@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { addBoard } from "../../redux/boards/operations";
 import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import css from "./AddBoard.module.css";
 
 const AddBoard = () => {
   const initialValues = { name: "" };
@@ -67,10 +68,19 @@ const AddBoard = () => {
         onSubmit={handleSubmit}
         validationSchema={BoardSchema}
       >
-        <Form>
-          <Field type="text" name="name" placeholder="Enter a board name" />
-          <ErrorMessage name="name" component="span" />
-          <button type="submit">Create board</button>
+        <Form className={css.addBoardBox}>
+          <div className={css.inputBox}>
+            <Field
+              type="text"
+              name="name"
+              placeholder="Enter a board name"
+              className={css.input}
+            />
+            <ErrorMessage name="name" component="span" className={css.error} />
+          </div>
+          <button type="submit" className={css.addBtn}>
+            Create board
+          </button>
         </Form>
       </Formik>
     </div>

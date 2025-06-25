@@ -1,0 +1,55 @@
+.loadBoardBox {
+  display: flex;
+  gap: 24px;
+  justify-content: flex-start;
+}
+
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input {
+  outline: none;
+  border: 2px solid #367633;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 24px;
+  width: 360px;
+  -moz-appearance: textfield;
+}
+
+.error {
+  font-size: 14px;
+  color: #f00;
+}
+
+.loadBtn {
+  /* display: block; */
+  border: 2px solid #367633;
+  font-family: "Manrope", sans-serif;
+  font-size: 20px;
+  color: #000;
+  border-radius: 8px;
+  outline: none;
+  width: 160px;
+  height: 47px;
+  background: linear-gradient(
+    rgba(247, 221, 53, 0.5),
+    rgba(255, 255, 255, 0.8)
+  );
+  transition: font-weight 300ms ease-in-out, 300ms ease-in-out;
+}
+
+.loadBtn:hover,
+.loadBtn:focus {
+  background-color: #367633;
+  font-weight: 500;
+}

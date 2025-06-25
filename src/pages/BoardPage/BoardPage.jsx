@@ -1,8 +1,9 @@
 import Board from "../../components/Board/Board.jsx";
+import css from "./BoardPage.module.css";
 
 const BoardPage = () => {
   return (
-    <div>
+    <div className={css.boardBox}>
       <Board />
     </div>
   );

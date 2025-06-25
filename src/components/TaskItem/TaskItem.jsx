@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Bounce, toast } from "react-toastify";
+import { MdOutlineCancel, MdOutlineEdit } from "react-icons/md";
+import { GoTrash } from "react-icons/go";
+import { IoSaveOutline } from "react-icons/io5";
 
 const TaskItem = ({ task }) => {
   const dispatch = useDispatch();
@@ -92,13 +95,21 @@ const TaskItem = ({ task }) => {
 
       {isEditing ? (
         <>
-          <button onClick={handleSave}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
+          <button onClick={handleSave}>
+            <IoSaveOutline />
+          </button>
+          <button onClick={() => setIsEditing(false)}>
+            <MdOutlineCancel />
+          </button>
         </>
       ) : (
         <>
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
+          <button onClick={() => setIsEditing(true)}>
+            <MdOutlineEdit />
+          </button>
+          <button onClick={handleDelete}>
+            <GoTrash />
+          </button>
         </>
       )}
     </li>

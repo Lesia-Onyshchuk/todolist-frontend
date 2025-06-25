@@ -1,22 +1,14 @@
-.home {
+.loadBox {
+  padding-top: 36px;
   background-image: url("../../assets/bckhome.jpg");
-  background-color: #f7dd35;
+  background-color: black;
   background-size: cover;
   background-position: center;
-  /* padding-bottom: 640px; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #000000;
+  color: #f7dd35;
   width: 1440px;
   height: 700px;
-}
-
-.title {
-  font-weight: 700;
-  font-size: 60px;
-  line-height: 1.2;
-  margin-bottom: 24px;
-  text-shadow: 2px 1px 3px #ffffff;
 }

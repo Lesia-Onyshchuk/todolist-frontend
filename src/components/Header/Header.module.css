@@ -1,5 +1,6 @@
 .container {
-  background-color: #367633;
+  background: linear-gradient(rgba(54, 118, 51, 1), rgba(52, 102, 50, 1));
+  /* background-color: #367633; */
   border-bottom: 4px solid #fff;
   display: flex;
   justify-content: space-between;
@@ -9,6 +10,7 @@
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 1440px;
   padding: 0 120px;
 }
@@ -24,22 +26,23 @@
   font-size: 18px;
   line-height: 1.25;
   color: #ffffff;
-  transition: color 300ms ease-in-out;
+  transition: color 300ms ease-in-out, transform 300ms ease-in-out;
   padding: 24px 0;
 }
 
 .link:hover {
-  color: #fffe02;
+  color: #f7dd35;
+  transform: scale(1.1);
 }
 
 .isActive {
-  color: #fffe02;
+  color: #f7dd35;
 }
 
 .logo {
-  color: #fffe02;
+  color: #f7dd35;
   width: 102px;
-  padding: 24px 0;
+  /* padding: 12px 0; */
   font-size: 20px;
   text-decoration: none;
   text-shadow: 1px 1px 3px #ffffff;
