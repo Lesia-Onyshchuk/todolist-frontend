@@ -1,11 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../api";
-// import { RootState } from "../store";
-
-export interface Board {
-  _id: string;
-  name: string;
-}
+import { Board } from "./slice";
 
 export interface NewBoard {
   name: string;

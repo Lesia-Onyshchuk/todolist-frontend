@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
-import { selectCurrentBoard } from "../../redux/boards/selectors";
-import { selectTasks } from "../../redux/tasks/selectors";
+import {
+  selectBoardLoading,
+  selectCurrentBoard,
+} from "../../redux/boards/selectors";
+import { selectTaskLoading, selectTasks } from "../../redux/tasks/selectors";
 import { fetchBoardById } from "../../redux/boards/operations";
 import { fetchTasks, updateTask } from "../../redux/tasks/operations";
 
@@ -22,11 +25,21 @@ import type { Board } from "../../redux/boards/slice";
 const Board: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const tasks = useSelector((state: RootState) => selectTasks(state));
-  const board = useSelector((state: RootState) => {
-    const result = selectCurrentBoard(state);
+  const board = useSelector((state: RootState) =>
+    selectCurrentBoard(state)
+  ) as {
+    data: Board;
+    status: number;
+    message: string;
+  } | null;
 
-    return result;
-  });
+  const taskLoading = useSelector((state: RootState) =>
+    selectTaskLoading(state)
+  );
+
+  const boardLoading = useSelector((state: RootState) =>
+    selectBoardLoading(state)
+  );
 
   const { boardId } = useParams<{ boardId: string }>();
 
@@ -53,14 +66,13 @@ const Board: React.FC = () => {
     }
   };
 
-  if (!board) {
-    return <Loader />;
-  }
-
+  if (!board?.data) return <Loader />;
   return (
     <DndContext onDragEnd={handleDragEnd}>
+      {boardLoading && <Loader />}
+      {taskLoading && <Loader />}
       <div className={css.boardBox}>
-        <BoardData data={board} />
+        <BoardData data={board.data} />
         <ul className={css.todoList}>
           <li className={css.todo}>
             <ToDo />

@@ -1,23 +1,30 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addBoard, deleteBoard, fetchBoardById } from "./operations";
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchBoardById, addBoard, deleteBoard } from "./operations";
 
 export interface Board {
-  data: { _id: string; name: string; boardId: number };
+  _id: string;
+  name: string;
+  boardId: number;
+}
+
+export interface BoardItem {
+  data: Board;
 }
 
 export interface BoardsState {
-  items: Board[];
-  board: Board | null;
-  current?: Board;
   loading: boolean;
   error: string | null;
+  items: BoardItem[];
+  board: Board | null;
+  current: Board | null;
 }
 
 const initialState: BoardsState = {
-  items: [],
-  board: null,
   loading: false,
   error: null,
+  items: [],
+  board: null,
+  current: null,
 };
 
 const slice = createSlice({
@@ -37,22 +44,19 @@ const slice = createSlice({
         state.loading = false;
         state.error = action.error.message ?? "Something went wrong";
       })
-
       .addCase(addBoard.pending, (state) => {
         state.loading = true;
       })
       .addCase(addBoard.fulfilled, (state, action) => {
         state.loading = false;
         const newBoard = action.payload.data;
-        state.items.push(newBoard);
+        state.items.push({ data: newBoard });
         state.current = newBoard;
       })
       .addCase(addBoard.rejected, (state, action) => {
         state.loading = false;
-        // action.payload може бути undefined, тому безпечніше так:
         state.error = action.payload ?? null;
       })
-
       .addCase(deleteBoard.pending, (state) => {
         state.loading = true;
       })

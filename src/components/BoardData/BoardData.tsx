@@ -18,7 +18,7 @@ const BoardData: React.FC<BoardDataProps> = ({ data }) => {
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    dispatch(deleteBoard(String(data.data.boardId)));
+    dispatch(deleteBoard(String(data.boardId)));
     dispatch(clearTasks());
     toast.success("Board successfully deleted!", {
       position: "top-right",
@@ -36,8 +36,8 @@ const BoardData: React.FC<BoardDataProps> = ({ data }) => {
 
   return (
     <div className={css.boardBox}>
-      <h2 className={css.name}>Board title: {data.data.name}</h2>
-      <h1 className={css.id}>Board ID: {data.data.boardId}</h1>
+      <h2 className={css.name}>Board title: {data.name}</h2>
+      <h1 className={css.id}>Board ID: {data.boardId}</h1>
       <button type="button" onClick={handleDelete} className={css.delBtn}>
         <GoTrash style={{ width: 36, height: 36, fill: "#f00" }} />
       </button>
