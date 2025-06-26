@@ -49,7 +49,8 @@ const slice = createSlice({
       })
       .addCase(addBoard.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        // action.payload може бути undefined, тому безпечніше так:
+        state.error = action.payload ?? null;
       })
 
       .addCase(deleteBoard.pending, (state) => {
@@ -57,11 +58,13 @@ const slice = createSlice({
       })
       .addCase(deleteBoard.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = state.items.filter((item) => item._id !== action.payload);
+        state.items = state.items.filter(
+          (item) => item.data._id !== action.payload
+        );
       })
       .addCase(deleteBoard.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload ?? null;
       });
   },
 });

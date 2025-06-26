@@ -27,7 +27,10 @@ const InProgress: React.FC = () => {
       <h2 className={css.title}>In Progress</h2>
       <ul>
         {inprogressTasks.map((task: Task) => (
-          <TaskItem key={task._id} task={task} />
+          <TaskItem
+            key={task._id}
+            task={{ ...task, description: task.description ?? "" }}
+          />
         ))}
       </ul>
     </div>
