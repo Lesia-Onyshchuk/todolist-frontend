@@ -1,11 +1,12 @@
 import { useDroppable } from "@dnd-kit/core";
-import AddTask from "../AddTask/AddTask.jsx";
-import TaskItem from "../TaskItem/TaskItem.jsx";
+import AddTask from "../AddTask/AddTask";
+import TaskItem from "../TaskItem/TaskItem";
 import { useSelector } from "react-redux";
-import { selectTasks } from "../../redux/tasks/selectors.js";
+import { selectTasks } from "../../redux/tasks/selectors";
 import css from "./ToDo.module.css";
+import { Task } from "../../redux/tasks/slice";
 
-const ToDo = () => {
+const ToDo: React.FC = () => {
   const { setNodeRef } = useDroppable({ id: "todo" });
   const tasks = useSelector(selectTasks);
 
@@ -22,8 +23,14 @@ const ToDo = () => {
     >
       <h2 className={css.title}>To Do</h2>
       <ul>
-        {todoTasks.map((task) => (
-          <TaskItem key={task._id} task={task} />
+        {todoTasks.map((task: Task) => (
+          <TaskItem
+            key={task._id}
+            task={{
+              ...task,
+              description: task.description ?? "",
+            }}
+          />
         ))}
       </ul>
       <AddTask />

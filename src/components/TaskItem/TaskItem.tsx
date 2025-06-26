@@ -8,14 +8,36 @@ import { MdOutlineCancel, MdOutlineEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
 import { IoSaveOutline } from "react-icons/io5";
 import css from "./TaskItem.module.css";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import { AppDispatch } from "../../redux/store";
 
-const TaskItem = ({ task }) => {
-  const dispatch = useDispatch();
+interface Task {
+  _id: string;
+  title: string;
+  description: string;
+  status: string;
+}
+
+interface Params {
+  [key: string]: string | undefined;
+  boardId?: string;
+}
+
+interface FormValues {
+  title: string;
+  description: string;
+}
+
+interface TaskItemProps {
+  task: Task;
+}
+
+const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task._id,
   });
-  const { boardId } = useParams();
+  const { boardId } = useParams<Params>();
 
   const style = {
     transform: transform
@@ -25,7 +47,11 @@ const TaskItem = ({ task }) => {
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleSave = (values) => {
+  const handleSave = (
+    values: FormValues,
+    actions: FormikHelpers<FormValues>
+  ) => {
+    if (!boardId) return;
     dispatch(
       updateTask({
         boardId,
@@ -48,6 +74,7 @@ const TaskItem = ({ task }) => {
       transition: Bounce,
     });
     setIsEditing(false);
+    actions.setSubmitting(false);
   };
 
   return (
@@ -117,7 +144,10 @@ const TaskItem = ({ task }) => {
             <MdOutlineEdit className={css.saveEditIcon} />
           </button>
           <button
-            onClick={() => dispatch(deleteTask({ boardId, id: task._id }))}
+            onClick={() => {
+              if (!boardId) return;
+              dispatch(deleteTask({ boardId, id: task._id }));
+            }}
             className={css.cancelDelBtn}
           >
             <GoTrash className={css.cancelDelIcon} />

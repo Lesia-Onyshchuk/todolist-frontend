@@ -1,15 +1,20 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import React from "react";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { addBoard } from "../../redux/boards/operations";
 import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import css from "./AddBoard.module.css";
+import type { AppDispatch } from "../../redux/store";
 
-const AddBoard = () => {
-  const initialValues = { name: "" };
-  const dispatch = useDispatch();
+interface FormValues {
+  name: string;
+}
 
+const AddBoard: React.FC = () => {
+  const initialValues: FormValues = { name: "" };
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const BoardSchema = Yup.object().shape({
@@ -19,39 +24,38 @@ const AddBoard = () => {
       .required("Required"),
   });
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = async (
+    values: FormValues,
+    actions: FormikHelpers<FormValues>
+  ) => {
     try {
       const resultAction = await dispatch(addBoard({ name: values.name }));
-      const newBoard = resultAction.payload;
 
-      const boardId = newBoard?.data?.boardId;
+      if (
+        resultAction.meta.requestStatus === "fulfilled" &&
+        typeof resultAction.payload === "object" &&
+        resultAction.payload !== null &&
+        "data" in resultAction.payload
+      ) {
+        const boardId = (resultAction.payload as any)?.data?.data?.boardId;
 
-      if (boardId) {
-        toast.success(`Board ID ${boardId} successfully created!`, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        });
-
+        if (boardId) {
+          toast.success(`Board ID ${boardId} successfully created!`, {
+            position: "top-right",
+            autoClose: 2000,
+            theme: "colored",
+            transition: Bounce,
+          });
+        }
         navigate(`/boards/${boardId}`);
+        actions.resetForm({ values: initialValues });
+      } else {
+        throw new Error("Unexpected response from server.");
       }
-
-      actions.resetForm({ values: initialValues });
     } catch (error) {
       toast.error("Failed to create board.", {
         position: "top-right",
         autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: "colored",
         transition: Bounce,
       });
