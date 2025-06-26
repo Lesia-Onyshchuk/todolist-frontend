@@ -9,12 +9,8 @@ import type { AppDispatch } from "../../redux/store";
 import type { Board } from "../../redux/boards/slice";
 import { clearTasks } from "../../redux/tasks/slice";
 
-interface BoardWrapper {
-  data: Board;
-}
-
 interface BoardDataProps {
-  data: BoardWrapper;
+  data: Board;
 }
 
 const BoardData: React.FC<BoardDataProps> = ({ data }) => {

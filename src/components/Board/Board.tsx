@@ -22,8 +22,12 @@ import type { Board } from "../../redux/boards/slice";
 const Board: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const tasks = useSelector((state: RootState) => selectTasks(state));
-  const board = useSelector((state: RootState) => selectCurrentBoard(state));
-  console.log("BOARD", board);
+  const board = useSelector((state: RootState) => {
+    const result = selectCurrentBoard(state);
+
+    return result;
+  });
+
   const { boardId } = useParams<{ boardId: string }>();
 
   useEffect(() => {
@@ -56,7 +60,7 @@ const Board: React.FC = () => {
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <div className={css.boardBox}>
-        <BoardData data={board as Board} />
+        <BoardData data={board} />
         <ul className={css.todoList}>
           <li className={css.todo}>
             <ToDo />

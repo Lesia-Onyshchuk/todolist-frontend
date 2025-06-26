@@ -2,9 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addBoard, deleteBoard, fetchBoardById } from "./operations";
 
 export interface Board {
-  _id: string;
-  name: string;
-  boardId: number;
+  data: { _id: string; name: string; boardId: number };
 }
 
 export interface BoardsState {
@@ -33,14 +31,21 @@ const slice = createSlice({
       })
       .addCase(
         fetchBoardById.fulfilled,
-        (state, action: PayloadAction<{ data: Board }>) => {
+        (
+          state,
+          action: PayloadAction<{
+            data: Board;
+            message: string;
+            status: number;
+          }>
+        ) => {
           state.loading = false;
           state.board = action.payload.data;
         }
       )
-      .addCase(fetchBoardById.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(fetchBoardById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.error.message ?? "Something went wrong";
       })
 
       .addCase(addBoard.pending, (state) => {
