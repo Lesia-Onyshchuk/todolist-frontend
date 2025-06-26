@@ -18,11 +18,6 @@ import { PersistConfig } from "redux-persist";
 import { TasksState } from "./tasks/slice";
 import { BoardsState } from "./boards/slice";
 
-// export interface RootState {
-//   tasks: TasksState;
-//   boards: BoardsState;
-// }
-
 const tasksPersistConfig: PersistConfig<TasksState> = {
   key: "tasks",
   storage,
