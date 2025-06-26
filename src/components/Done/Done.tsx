@@ -25,7 +25,10 @@ const Done: React.FC = () => {
       <h2 className={css.title}>Done</h2>
       <ul>
         {doneTasks.map((task: Task) => (
-          <TaskItem key={task._id} task={task} />
+          <TaskItem
+            key={task._id}
+            task={{ ...task, description: task.description ?? "" }}
+          />
         ))}
       </ul>
     </div>

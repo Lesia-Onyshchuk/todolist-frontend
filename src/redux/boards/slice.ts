@@ -29,20 +29,10 @@ const slice = createSlice({
       .addCase(fetchBoardById.pending, (state) => {
         state.loading = true;
       })
-      .addCase(
-        fetchBoardById.fulfilled,
-        (
-          state,
-          action: PayloadAction<{
-            data: Board;
-            message: string;
-            status: number;
-          }>
-        ) => {
-          state.loading = false;
-          state.board = action.payload.data;
-        }
-      )
+      .addCase(fetchBoardById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.board = action.payload.data;
+      })
       .addCase(fetchBoardById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Something went wrong";
@@ -51,35 +41,30 @@ const slice = createSlice({
       .addCase(addBoard.pending, (state) => {
         state.loading = true;
       })
-      .addCase(
-        addBoard.fulfilled,
-        (state, action: PayloadAction<{ data: Board }>) => {
-          state.loading = false;
-          const newBoard = action.payload.data;
-          state.items.push(newBoard);
-          state.current = newBoard;
-        }
-      )
-      .addCase(addBoard.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(addBoard.fulfilled, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        const newBoard = action.payload.data;
+        state.items.push(newBoard);
+        state.current = newBoard;
+      })
+      .addCase(addBoard.rejected, (state, action) => {
+        state.loading = false;
+        // action.payload може бути undefined, тому безпечніше так:
+        state.error = action.payload ?? null;
       })
 
       .addCase(deleteBoard.pending, (state) => {
         state.loading = true;
       })
-      .addCase(
-        deleteBoard.fulfilled,
-        (state, action: PayloadAction<string>) => {
-          state.loading = false;
-          state.items = state.items.filter(
-            (item) => item._id !== action.payload
-          );
-        }
-      )
-      .addCase(deleteBoard.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(deleteBoard.fulfilled, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.items = state.items.filter(
+          (item) => item.data._id !== action.payload
+        );
+      })
+      .addCase(deleteBoard.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? null;
       });
   },
 });
