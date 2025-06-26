@@ -1,14 +1,20 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import React from "react";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { fetchBoardById } from "../../redux/boards/operations";
 import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import css from "./LoadForm.module.css";
+import type { AppDispatch } from "../../redux/store";
 
-const LoadForm = () => {
-  const initialValues = { boardId: "" };
-  const dispatch = useDispatch();
+interface FormValues {
+  boardId: number | "";
+}
+
+const LoadForm: React.FC = () => {
+  const initialValues: FormValues = { boardId: "" };
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const BoardIdSchema = Yup.object().shape({
@@ -23,9 +29,15 @@ const LoadForm = () => {
       .required("Board ID is required"),
   });
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = async (
+    values: FormValues,
+    actions: FormikHelpers<FormValues>
+  ) => {
     try {
-      const result = await dispatch(fetchBoardById(values.boardId)).unwrap();
+      const result = await dispatch(
+        fetchBoardById(values.boardId.toString())
+      ).unwrap();
+
       toast.success("Board successfully found!", {
         position: "top-right",
         autoClose: 3000,
@@ -37,6 +49,7 @@ const LoadForm = () => {
         theme: "colored",
         transition: Bounce,
       });
+
       navigate(`/boards/${values.boardId}`);
     } catch (error) {
       toast.error("Board not found!", {

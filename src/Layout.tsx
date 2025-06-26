@@ -1,7 +1,8 @@
+import { FC } from "react";
 import { Outlet } from "react-router-dom";
-import Header from "./components/Header/Header.jsx";
+import Header from "./components/Header/Header";
 
-const Layout = () => {
+const Layout: FC = () => {
   return (
     <div>
       <Header />

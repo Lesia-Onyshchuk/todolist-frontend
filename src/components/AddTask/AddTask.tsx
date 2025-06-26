@@ -1,4 +1,5 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import React from "react";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import { Bounce, toast } from "react-toastify";
 import * as Yup from "yup";
@@ -6,11 +7,17 @@ import { addTask, fetchTasks } from "../../redux/tasks/operations";
 import { useParams } from "react-router-dom";
 import { MdDownloadDone } from "react-icons/md";
 import css from "./AddTask.module.css";
+import type { AppDispatch } from "../../redux/store";
 
-const AddTask = () => {
-  const initialValues = { title: "", description: "" };
-  const dispatch = useDispatch();
-  const { boardId } = useParams();
+interface FormValues {
+  title: string;
+  description: string;
+}
+
+const AddTask: React.FC = () => {
+  const initialValues: FormValues = { title: "", description: "" };
+  const dispatch = useDispatch<AppDispatch>();
+  const { boardId } = useParams<{ boardId: string }>();
 
   const TasksSchema = Yup.object().shape({
     title: Yup.string()
@@ -23,24 +30,48 @@ const AddTask = () => {
       .required("Required"),
   });
 
-  const handleSubmit = async (values, actions) => {
-    await dispatch(
-      addTask({ boardId, title: values.title, description: values.description })
-    ).unwrap();
-    toast.success("Task successfully created!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-    });
-    dispatch(fetchTasks({ boardId }));
-    actions.resetForm({ values: initialValues });
+  const handleSubmit = async (
+    values: FormValues,
+    actions: FormikHelpers<FormValues>
+  ) => {
+    if (!boardId) {
+      toast.error("Board ID is missing.", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "colored",
+      });
+      return;
+    }
+
+    try {
+      await dispatch(
+        addTask({
+          boardId,
+          title: values.title,
+          description: values.description,
+          status: "todo",
+        })
+      ).unwrap();
+
+      toast.success("Task successfully created!", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "colored",
+        transition: Bounce,
+      });
+
+      dispatch(fetchTasks({ boardId }));
+
+      actions.resetForm({ values: initialValues });
+    } catch (error) {
+      toast.error("Failed to create task.", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "colored",
+      });
+    }
   };
+
   return (
     <div className={css.box}>
       <Formik
